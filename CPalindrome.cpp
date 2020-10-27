@@ -20,6 +20,8 @@ CPalindrome::~CPalindrome()
 //checks if given string is a palindrome
 bool CPalindrome::if_palindrome(const std::string &s)
 {
+    cout << s << endl;
+    
     auto itb {s.begin()};
     auto ite (s.end() - 1);
     while (*itb == *ite && ite > itb)
@@ -41,7 +43,7 @@ bool CPalindrome::if_palindrome(const std::string &s)
 
 
 //**********************************************************************************************
-//returns minimum number of changes that are needed to change the given string into a palidrome (possible only inceasing or deacrising of letters)
+//returns minimum number of changes that are needed to change the given string into a palidrome (possible only increasing or decreasing of letters)
 int CPalindrome::near_palindrome(const std::string &s)
 {
     return 0;
@@ -53,6 +55,13 @@ int CPalindrome::near_palindrome(const std::string &s)
 //checks if there can be a removal of one letter to change the given string into a palidrome
 bool CPalindrome::if_one_sign_away(const std::string &s)
 {
+    for (int i = 0, n = s.size(); i < n; i++)
+    {
+        if (if_palindrome(s.substr(0,i) + s.substr(i+1, n)))
+        {
+            return true;
+        }
+    }
     return false;
 }
 //**********************************************************************************************

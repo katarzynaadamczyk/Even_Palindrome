@@ -7,7 +7,7 @@ What is a palindrome? A palindrome is a sequence of characters that reads the sa
 Class CPalindrome has a bunch of static functions that solves different issues with palindromes. Each function assumes that given string consists only of small English letters and its size is > 1.
 
 * bool CPalindrome::if_palindrome(const std::string &s) - checks if given string is a palindrome
-* int CPalindrome::near_palindrome(const std::string &s) - returns minimum number of changes that are needed to change the given string into a palidrome (possible only inceasing or deacrising of letters by 1)
+* int CPalindrome::near_palindrome(const std::string &s) - returns minimum number of changes that are needed to change the given string into a palidrome (possible only increasing or decreasing of letters by 1)
 * bool CPalindrome::if_one_sign_away(const std::string &s) - checks if there can be a removal of one letter to change the given string into a palidrome
 * bool CPalindrome::if_one_sign_away_from_np(const std::string &s) - checks if there can be a removal of one letter to change the given string into a near-palidrome
 * std::string CPalindrome::find_palindrome(std::string &s) - rearranges letters in given string to make a palindrome, if it is not possible return "None"
