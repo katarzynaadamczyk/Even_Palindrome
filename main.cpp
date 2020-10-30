@@ -16,7 +16,7 @@ int main(void)
              << "1 - \n"
              << "2 - check if there can be a removal of one letter to change the given string into a palidrome\n"
              << "3 - check if there can be a removal of one letter to change the given string into a near-palidrome\n"
-             << "4 - \n"
+             << "4 - rearrange letters in given string to make a lowest palindrome, if it is not possible return \"None\"\n"
              << "5 - \n"
              << "6 - \n"
              << "7 - \n"
@@ -64,7 +64,14 @@ int main(void)
             }
             break;
         case 4:
-            /* code */
+            if (CPalindrome::if_correct(s))
+            {
+                cout << CPalindrome::find_palindrome(s) << endl;
+            }
+            else
+            {
+                cout << "Wrong data." << endl;
+            }
             break;
         case 5:
             /* code */

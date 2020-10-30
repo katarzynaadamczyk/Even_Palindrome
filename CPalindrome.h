@@ -9,6 +9,9 @@ public:
     CPalindrome();
     ~CPalindrome();
 
+//checks correctness of provided string
+    static bool if_correct(const std::string &s);
+
 //checks if given string is a palindrome
     static bool if_palindrome(const std::string &s);
 
@@ -21,7 +24,7 @@ public:
 //checks if there can be a removal of one letter to change the given string into a near-palidrome
     static bool if_one_sign_away_from_np(const std::string &s);
     
-//rearranges letters in given string to make a palindrome, if it is not possible return "None"
+//rearranges letters in given string to make a lowest palindrome, if it is not possible return "None"
     static std::string find_palindrome(std::string &s);
     
 //finds the longest palidrome in given string, if there is none return "None"
