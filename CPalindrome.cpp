@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 #include "CPalindrome.h"
 
 using namespace std;
@@ -13,6 +14,19 @@ CPalindrome::CPalindrome()
 
 CPalindrome::~CPalindrome()
 {
+}
+
+//checks correctness of provided string
+bool CPalindrome::if_correct(const std::string &s)
+{
+    for (auto i = s.begin(); i < s.end(); i++)
+    {
+        if (!(*i >= 'a' && *i <= 'z'))
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 
@@ -100,10 +114,54 @@ bool CPalindrome::if_one_sign_away_from_np(const std::string &s)
 
 
 //**********************************************************************************************
-//rearranges letters in given string to make a palindrome, if it is not possible return "None"
+//rearranges letters in given string to make a lowest palindrome, if it is not possible return "None"
 string CPalindrome::find_palindrome(std::string &s)
 {
-    return "";
+    //create a vector counts the quantity of each letter in given string
+    vector<size_t> chars(26, 0);
+    for (auto i = s.begin(); i < s.end(); i++)
+    {
+        chars[*i - 'a']++;
+    }
+
+    //check if there is a possibily to create a palidrome
+    size_t odd_count {};
+    for (auto i = chars.begin(); i < chars.end(); i++)
+    {
+        if (*i % 2 != 0)
+        {
+            odd_count++;
+        }
+    }
+    if (s.size() % 2 == 0 && odd_count == 0 || s.size() % 2 == 1 && odd_count == 1)
+    {
+        string ret(s.size(), ' ');
+        int i {};
+        for (size_t j = 0, n = s.size(); j < n / 2; j++)
+        {
+            while (chars[i] < 2 && i < chars.size())
+            {
+                i++;
+            }
+            ret[j] = 'a' + i;
+            ret[n - 1 - j] = ret[j];
+            chars[i] -= 2;
+        }
+        if (odd_count)
+        {
+            i = 0;
+            while (chars[i] == 0)
+            {
+                i++;
+            }
+            ret[s.size() / 2] = 'a' + i;
+        }
+        return ret;
+    }
+    else
+    {
+        return "None";
+    }
 }
 //**********************************************************************************************
 
