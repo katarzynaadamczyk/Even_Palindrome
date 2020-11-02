@@ -58,8 +58,35 @@ bool CPalindrome::if_palindrome(const std::string &s)
 
 //**********************************************************************************************
 //returns minimum number of changes that are needed to change the given string into a palidrome (possible only increasing or decreasing of letters)
-int CPalindrome::near_palindrome(const std::string &s)
+int CPalindrome::to_palindrome(const std::string &s)
 {
+    int sum {};
+    for (auto i = s.begin(), j = s.end() - 1; j > i; i++, j--)
+    {
+        int pom {};
+        if (*i > *j)
+        {
+            pom = static_cast<int>(*i - *j);
+        }
+        else
+        {
+            pom = static_cast<int>(*j - *i);
+        }
+        if (pom > 13)
+        {
+            pom = 26 - pom;
+        }
+        sum += pom; 
+    }
+    return sum;
+}
+//**********************************************************************************************
+
+//**********************************************************************************************
+//returns minimum number of changes that are needed to change the given string into a near-palidrome (possible only increasing or decreasing of letters)
+int CPalindrome::to_near_palindrome(const std::string &s)
+{
+    //TODO
     return 0;
 }
 //**********************************************************************************************
