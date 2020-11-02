@@ -33,9 +33,7 @@ bool CPalindrome::if_correct(const std::string &s)
 //**********************************************************************************************
 //checks if given string is a palindrome
 bool CPalindrome::if_palindrome(const std::string &s)
-{
-    cout << s << endl;
-    
+{   
     auto itb {s.begin()};
     auto ite (s.end() - 1);
     while (*itb == *ite && ite > itb)
@@ -112,25 +110,8 @@ bool CPalindrome::if_one_sign_away(const std::string &s)
 bool CPalindrome::if_one_sign_away_from_np(const std::string &s)
 {
     map<char,int> set;
-    for (auto it = s.begin(); it < s.end(); it++)
-    {
-        if (set.find(*it) == set.end())
-        {
-            set[*it] = 1;
-        }
-        else
-        {
-            set.find(*it)->second++;
-        }
-    }
-    int odd_count {};
-    for (auto it = set.begin(); it != set.end(); it++)
-    {
-        if (it->second % 2 != 0)
-        {
-            odd_count++;
-        }
-    }
+    count_letters(s, set);
+    size_t odd_count {count_odds(set)};
     if ((s.size() % 2 == 0 && odd_count < 3) || (s.size() % 2 == 1 && odd_count < 2))
     {
         return true;
@@ -145,21 +126,12 @@ bool CPalindrome::if_one_sign_away_from_np(const std::string &s)
 string CPalindrome::find_palindrome(std::string &s)
 {
     //create a vector counts the quantity of each letter in given string
-    vector<size_t> chars(26, 0);
-    for (auto i = s.begin(); i < s.end(); i++)
-    {
-        chars[*i - 'a']++;
-    }
+    vector<int> chars;
+    count_letters(s, chars);
 
     //check if there is a possibily to create a palidrome
-    size_t odd_count {};
-    for (auto i = chars.begin(); i < chars.end(); i++)
-    {
-        if (*i % 2 != 0)
-        {
-            odd_count++;
-        }
-    }
+    size_t odd_count {count_odds(chars)};
+
     if (s.size() % 2 == 0 && odd_count == 0 || s.size() % 2 == 1 && odd_count == 1)
     {
         string ret(s.size(), ' ');
@@ -197,7 +169,25 @@ string CPalindrome::find_palindrome(std::string &s)
 //finds the longest palidrome in given string, if there is none return "None"
 string CPalindrome::longest_palindrome(std::string &s)
 {
-    return "";
+    string ret {};
+    for (size_t i = s.size(); i <= s.size(); i--)
+    {
+        for (size_t j = 0; j < i - 1; j++)
+        {
+            if ((i - j) > ret.size())
+            {
+                if (if_palindrome(s.substr(j, i)))
+                {
+                    ret = s.substr(j, i);
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    return ret;
 }
 //**********************************************************************************************
 
@@ -217,4 +207,67 @@ bool CPalindrome::int_is_palindrome(int &i)
 {
     return false;
 }
+//**********************************************************************************************
+
+//**********************************************************************************************
+//**********************************************************************************************
+//**********************************************************************************************
+//**********************************************************************************************
+//functions which counts appearances of letters and store that data in a map or a vector
+void CPalindrome::count_letters(const std::string &s, std::vector<int> &chars)
+{
+    chars.resize(26);
+    for (auto i = s.begin(); i < s.end(); i++)
+    {
+        chars[*i - 'a']++;
+    }
+}
+
+//**********************************************************************************************
+void CPalindrome::count_letters(const std::string &s, std::map<char, int> &chars)
+{
+    for (auto it = s.begin(); it < s.end(); it++)
+    {
+        if (chars.find(*it) == chars.end())
+        {
+            chars[*it] = 1;
+        }
+        else
+        {
+            chars.find(*it)->second++;
+        }
+    }
+}
+
+//**********************************************************************************************
+//functions that count how many letters appear odd number of times
+size_t CPalindrome::count_odds(std::vector<int> &chars)
+{
+    size_t odd_count {};
+    for (auto i = chars.begin(); i < chars.end(); i++)
+    {
+        if (*i % 2 != 0)
+        {
+            odd_count++;
+        }
+    }
+    return odd_count;
+}
+
+//**********************************************************************************************
+size_t CPalindrome::count_odds(std::map<char, int> &chars)
+{
+    size_t odd_count {};
+    for (auto it = chars.begin(); it != chars.end(); it++)
+    {
+        if (it->second % 2 != 0)
+        {
+            odd_count++;
+        }
+    }
+    return odd_count;
+}
+
+//**********************************************************************************************
+//**********************************************************************************************
 //**********************************************************************************************

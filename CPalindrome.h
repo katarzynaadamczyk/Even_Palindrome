@@ -1,10 +1,19 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <map>
 
 class CPalindrome
 {
 private:
-    /* data */
+//functions which counts appearances of letters and store that data in a map or a vector
+    static void count_letters(const std::string &s, std::vector<int> &chars);
+    static void count_letters(const std::string &s, std::map<char, int> &chars);
+
+//functions that count how many letters appear odd number of times
+    static size_t count_odds(std::vector<int> &chars);
+    static size_t count_odds(std::map<char, int> &chars);
+
 public:
     CPalindrome();
     ~CPalindrome();
