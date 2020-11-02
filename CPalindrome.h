@@ -16,7 +16,10 @@ public:
     static bool if_palindrome(const std::string &s);
 
 //returns minimum number of changes that are needed to change the given string into a palidrome (possible only increasing or decreasing of letters)
-    static int near_palindrome(const std::string &s);
+    static int to_palindrome(const std::string &s);
+
+//returns minimum number of changes that are needed to change the given string into a near-palidrome (possible only increasing or decreasing of letters)
+    static int to_near_palindrome(const std::string &s);
     
 //checks if there can be a removal of one letter to change the given string into a palidrome
     static bool if_one_sign_away(const std::string &s);
