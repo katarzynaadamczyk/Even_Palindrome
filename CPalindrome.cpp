@@ -19,6 +19,10 @@ CPalindrome::~CPalindrome()
 //checks correctness of provided string
 bool CPalindrome::if_correct(const std::string &s)
 {
+    if (s.size() < 2)
+    {
+        return false;
+    }
     for (auto i = s.begin(); i < s.end(); i++)
     {
         if (!(*i >= 'a' && *i <= 'z'))
@@ -34,6 +38,10 @@ bool CPalindrome::if_correct(const std::string &s)
 //checks if given string is a palindrome
 bool CPalindrome::if_palindrome(const std::string &s)
 {   
+    if (s.size() < 2)
+    {
+        return false;
+    }
     auto itb {s.begin()};
     auto ite (s.end() - 1);
     while (*itb == *ite && ite > itb)
@@ -172,7 +180,7 @@ string CPalindrome::longest_palindrome(std::string &s)
     string ret {};
     for (size_t i = s.size(); i <= s.size(); i--)
     {
-        for (size_t j = 0; j < i - 1; j++)
+        for (size_t j = 0; j < i; j++)
         {
             if ((i - j) > ret.size())
             {
@@ -181,11 +189,42 @@ string CPalindrome::longest_palindrome(std::string &s)
                     ret = s.substr(j, i);
                 }
             }
+            else if ((i - j) == ret.size())
+            {
+                if (if_palindrome(s.substr(j, i)) && ret.compare(s.substr(j, i)) < 0)
+                {
+                    ret = s.substr(j, i);
+                }
+            }
+            else 
+            {
+                break;
+            }
+        }
+        for (size_t j = i; j < s.size(); j++)
+        {
+            if ((j - i) > ret.size())
+            {
+                if (if_palindrome(s.substr(i, j)))
+                {
+                    ret = s.substr(i, j);
+                }
+            }else if ((j - i) == ret.size())
+            {
+                if (if_palindrome(s.substr(i, j)) && ret.compare(s.substr(i, j)) < 0)
+                {
+                    ret = s.substr(i, j);
+                }
+            }
             else
             {
                 break;
             }
         }
+    }
+    if (ret == "")
+    {
+        ret = "None";
     }
     return ret;
 }
