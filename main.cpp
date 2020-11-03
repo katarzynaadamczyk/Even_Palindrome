@@ -20,7 +20,7 @@ int main(void)
              << "5 - rearrange letters in given string to make a lowest palindrome, if it is not possible return \"None\"\n"
              << "6 - find the longest palidrome in given string, if there is none return \"None\"\n"
              << "7 - \n" // - *not working* return the smallest alphabetically string that is a near palindrome, doing as few operations as possible (possible is only changing of letter into a different one)
-             << "8 - \n" // - *not working* check if given integer is a palindrome
+             << "8 - check if given integer is a palindrome\n"
              << "Your choice: ";
         getline(cin, s);
         i = stoi(s.c_str());
@@ -79,7 +79,7 @@ int main(void)
                 /* code */
                 break;
             case 8:
-                /* code */
+                cout << "The result for \"" << s << "\" is \"" << CPalindrome::int_is_palindrome(stoi(s)) << "\"" << endl;
                 break;
 
             default:

@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <math.h>
 #include "CPalindrome.h"
 
 using namespace std;
@@ -235,6 +236,10 @@ string CPalindrome::longest_palindrome(std::string &s)
 //returns the smallest alphabetically string that is a near palindrome, doing as few operations as possible (possible is only changing of letter into a different one)
 string CPalindrome::even_palindrome(std::string &s)
 {
+    
+    
+    //todo
+
     return "";
 }
 //**********************************************************************************************
@@ -242,9 +247,30 @@ string CPalindrome::even_palindrome(std::string &s)
 
 //**********************************************************************************************
 //checks if given integer is a palindrome
-bool CPalindrome::int_is_palindrome(int &i)
+bool CPalindrome::int_is_palindrome(const int &i)
 {
-    return false;
+    //count how many numbers has given int
+    int num {}, pom {i};
+    while (pom > 0)
+    {
+        num++;
+        pom /= 10;
+    }
+    
+    //check sides of i 
+    pom = i;
+    while (num > 1)
+    {
+        if (static_cast<int>(pom / pow(10, num - 1)) != (pom % 10))
+        {
+            return false;
+        }
+        pom -= static_cast<int>(pom / pow(10, num - 1)) * static_cast<int>(pow(10, num - 1));
+        pom /= 10;
+        num -= 2;
+    }
+
+    return true;
 }
 //**********************************************************************************************
 
