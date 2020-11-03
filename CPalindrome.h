@@ -46,6 +46,6 @@ public:
     static std::string even_palindrome(std::string &s);
 
 //checks if given integer is a palindrome
-    static bool int_is_palindrome(int &i);
+    static bool int_is_palindrome(const int &i);
 };
 
