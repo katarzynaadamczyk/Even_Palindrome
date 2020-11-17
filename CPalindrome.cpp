@@ -236,11 +236,63 @@ string CPalindrome::longest_palindrome(std::string &s)
 //returns the smallest alphabetically string that is a near palindrome, doing as few operations as possible (possible is only changing of letter into a different one)
 string CPalindrome::even_palindrome(std::string &s)
 {
+    if (s.size() % 2 != 0)
+    {
+        return "None";
+    }
     
-    
-    //todo
+    //count which letters appear odd number of times in s
+    vector<int> chars;
+    count_letters(s, chars);
+    size_t odds = count_odds(chars);
 
-    return "";
+    //int to count the amount of steps in the exercise
+    int steps {};
+    
+    //at which position are odd letters and what letter is that
+    map<size_t, char> pos_odds;
+    for (size_t i = 0; i < s.size(); i++)
+    {
+        if (chars[s[i] - 'a'] % 2 != 0)
+        {
+            pos_odds.insert(pair<size_t, char>(i, s[i]));
+        }
+    }
+
+    //exact algorithm
+    map<size_t, char>::iterator fir, sec;
+    while (odds > 0 && odds <= s.size())
+    {
+        fir = pos_odds.begin();
+        sec = fir;
+        sec++;
+        for (auto i = sec; i != pos_odds.end(); i++)
+        {
+            if (sec->second > i->second)
+            {
+                sec = i;
+            }
+        }
+
+        if (fir->second > sec->second)
+        {
+            s[fir->first] = sec->second;
+
+        }
+        else
+        {
+            s[sec->first] = fir->second;
+        }
+        
+        pos_odds.erase(fir);
+        pos_odds.erase(sec);
+        steps++;
+        odds -= 2;
+    }
+
+    cout << "Steps to do the task: " << steps << endl; 
+
+    return s;
 }
 //**********************************************************************************************
 
