@@ -242,7 +242,7 @@ string CPalindrome::even_palindrome(std::string &s)
     }
     
     //count which letters appear odd number of times in s
-    vector<int> chars;
+    map<char, int> chars;
     count_letters(s, chars);
     size_t odds = count_odds(chars);
 
@@ -253,9 +253,10 @@ string CPalindrome::even_palindrome(std::string &s)
     map<size_t, char> pos_odds;
     for (size_t i = 0; i < s.size(); i++)
     {
-        if (chars[s[i] - 'a'] % 2 != 0)
+        if (chars.find(s[i]) != chars.end() && chars[s[i]] % 2 != 0)
         {
             pos_odds.insert(pair<size_t, char>(i, s[i]));
+            chars.erase(s[i]);
         }
     }
 
