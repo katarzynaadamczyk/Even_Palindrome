@@ -8,18 +8,18 @@ int main(void)
 {
     cout << "Welcome to Palindromic Quests program" << endl;
     string s;
-    int i;
+    int i, steps;
     while (s != "end")
     {
         cout << "Please choose actual functionality by typing one of the following numbers: \n"
              << "0 - check if the string is a palindrome\n"
              << "1 - return minimum number of changes that are needed to change the given string into a palidrome (possible only increasing or decreasing of letters)\n"
-             << "2 - \n" // - *not working* return minimum number of changes that are needed to change the given string into a near-palidrome (possible only increasing or decreasing of letters)\n"
+             << "2 - return minimum number of changes that are needed to change the given string into a near-palidrome (possible only increasing or decreasing of letters)\n"  
              << "3 - check if there can be a removal of one letter to change the given string into a palidrome\n"
              << "4 - check if there can be a removal of one letter to change the given string into a near-palidrome\n"
              << "5 - rearrange letters in given string to make a lowest palindrome, if it is not possible return \"None\"\n"
              << "6 - find the longest palidrome in given string, if there is none return \"None\"\n"
-             << "7 - return the smallest alphabetically string that is a near palindrome, doing as few operations as possible (possible is only changing of letter into a different one)\n"  
+             << "7 - count steps and return the smallest alphabetically string that is a near palindrome, doing as few operations as possible (possible is only changing of letter into a different one)\n"  
              << "8 - check if given integer is a palindrome\n"
              << "Your choice: ";
         getline(cin, s);
@@ -47,7 +47,9 @@ int main(void)
                 cout << "Minimum number of changes to create a palindrome is: " << CPalindrome::to_palindrome(s) << endl;
                 break;
             case 2:
-                cout << "Minimum number of changes to create a palindrome is: " << CPalindrome::to_near_palindrome(s) << endl;
+                cout << "Minimum number of changes to create a palindrome from \"" << s << "\" is: "; 
+                steps = CPalindrome::to_near_palindrome(s);
+                cout << steps << " steps and resulting string is \"" << s << "\"." << endl;
                 break;
             case 3:
                 if (CPalindrome::if_one_sign_away(s))
@@ -76,7 +78,9 @@ int main(void)
                 cout << "The result for string \"" << s << "\" is \"" << CPalindrome::longest_palindrome(s) << "\"" << endl;
                 break;
             case 7:
-                cout << "The result for string \"" << s << "\" is \"" << CPalindrome::even_palindrome(s) << "\"" << endl;
+                cout << "The result for string \"" << s << "\" is done in ";
+                steps = CPalindrome::even_palindrome(s);
+                cout << steps << " steps and equals \"" << s << "\"" << endl;
                 break;
             case 8:
                 cout << "The result for \"" << s << "\" is \"" << CPalindrome::int_is_palindrome(stoi(s)) << "\"" << endl;

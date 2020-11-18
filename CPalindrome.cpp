@@ -70,20 +70,7 @@ int CPalindrome::to_palindrome(const std::string &s)
     int sum {};
     for (auto i = s.begin(), j = s.end() - 1; j > i; i++, j--)
     {
-        int pom {};
-        if (*i > *j)
-        {
-            pom = static_cast<int>(*i - *j);
-        }
-        else
-        {
-            pom = static_cast<int>(*j - *i);
-        }
-        if (pom > 13)
-        {
-            pom = 26 - pom;
-        }
-        sum += pom; 
+        sum += difference(*i, *j); 
     }
     return sum;
 }
@@ -91,10 +78,74 @@ int CPalindrome::to_palindrome(const std::string &s)
 
 //**********************************************************************************************
 //returns minimum number of changes that are needed to change the given string into a near-palidrome (possible only increasing or decreasing of letters)
-int CPalindrome::to_near_palindrome(const std::string &s)
+int CPalindrome::to_near_palindrome(std::string &s)
 {
-    //TODO
-    return 0;
+    //count which letters appear odd number of times in s
+    map<char, int> chars;
+    count_letters(s, chars);
+    size_t odds = count_odds(chars);
+
+    //int to count the amount of steps in the exercise
+    int steps {};
+    
+    //at which position are odd letters and what letter is that
+    map<size_t, char> pos_odds;
+    for (size_t i = 0; i < s.size(); i++)
+    {
+        if (chars.find(s[i]) != chars.end() && chars[s[i]] % 2 != 0)
+        {
+            pos_odds.insert(pair<size_t, char>(i, s[i]));
+            chars.erase(s[i]);
+        }
+    }
+
+    //exact algorithm
+    map<size_t, char>::iterator fir, sec;
+    int diff, tmp;
+    while (odds > 1 && odds <= s.size())
+    {
+        fir = pos_odds.begin();
+        sec = fir;
+        sec++;
+        diff = difference(fir->second, sec->second);
+
+        
+        for (auto i = pos_odds.begin(); i != pos_odds.end(); i++)
+        {
+            for (auto j = i; j != pos_odds.end(); j++)
+            {
+                if (j != i)
+                {
+                    tmp = difference(j->second, i->second);
+                    if (tmp < diff)
+                    {
+                        fir = i;
+                        sec = j;
+                        diff = tmp;
+                    }
+                }
+            }
+        }
+
+        if (fir->second > sec->second)
+        {
+            s[fir->first] = sec->second;
+
+        }
+        else
+        {
+            s[sec->first] = fir->second;
+        }
+
+        steps += diff;
+
+        pos_odds.erase(fir);
+        pos_odds.erase(sec);
+        
+        odds -= 2;
+    }
+
+    return steps;
 }
 //**********************************************************************************************
 
@@ -234,11 +285,11 @@ string CPalindrome::longest_palindrome(std::string &s)
 
 //**********************************************************************************************
 //returns the smallest alphabetically string that is a near palindrome, doing as few operations as possible (possible is only changing of letter into a different one)
-string CPalindrome::even_palindrome(std::string &s)
+int CPalindrome::even_palindrome(std::string &s)
 {
     if (s.size() % 2 != 0)
     {
-        return "None";
+        return -1;
     }
     
     //count which letters appear odd number of times in s
@@ -260,6 +311,7 @@ string CPalindrome::even_palindrome(std::string &s)
         }
     }
 
+    cout << "s = " << s << ", before exact algorithm" << endl;
     //exact algorithm
     map<size_t, char>::iterator fir, sec;
     while (odds > 0 && odds <= s.size())
@@ -291,9 +343,10 @@ string CPalindrome::even_palindrome(std::string &s)
         odds -= 2;
     }
 
-    cout << "Steps to do the task: " << steps << endl; 
+    cout << "s = " << s << ", after exact algorithm" << endl;
+    cout << "steps = " << steps << endl;
 
-    return s;
+    return steps;
 }
 //**********************************************************************************************
 
@@ -386,6 +439,26 @@ size_t CPalindrome::count_odds(std::map<char, int> &chars)
     return odd_count;
 }
 
+//**********************************************************************************************
+//function that counts the difference between char a and char b
+int CPalindrome::difference(char a, char b)
+{
+    int dif {};
+    if (a > b)
+    {
+        dif = static_cast<int>(a - b);
+    }
+    else
+    {
+        dif = static_cast<int>(b - a);
+    }
+    if (dif > 13)
+    {
+        dif = 26 - dif;
+    }
+
+    return dif;
+}
 //**********************************************************************************************
 //**********************************************************************************************
 //**********************************************************************************************
