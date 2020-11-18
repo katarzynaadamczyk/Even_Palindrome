@@ -110,13 +110,20 @@ int CPalindrome::to_near_palindrome(std::string &s)
         diff = difference(fir->second, sec->second);
 
         
-        for (auto i = sec; i != pos_odds.end(); i++)
+        for (auto i = pos_odds.begin(); i != pos_odds.end(); i++)
         {
-            tmp = difference(fir->second, i->second);
-            if (tmp < diff)
+            for (auto j = i; j != pos_odds.end(); j++)
             {
-                sec = i;
-                diff = tmp;
+                if (j != i)
+                {
+                    tmp = difference(j->second, i->second);
+                    if (tmp < diff)
+                    {
+                        fir = i;
+                        sec = j;
+                        diff = tmp;
+                    }
+                }
             }
         }
 
